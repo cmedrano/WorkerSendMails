@@ -2,7 +2,7 @@ name: Job Consola .NET
 run-name: Job Consola .NET #${{ github.run_number }}
 
 on:
-  workflow_dispatch:   # ejecución manual
+  workflow_dispatch: # ejecución manual
   schedule:
     - cron: "0 3 * * *" # todos los días a las 03:00 UTC
 
@@ -10,6 +10,14 @@ jobs:
   run-job:
     runs-on: ubuntu-latest
 
+    env:
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASS: ${{ secrets.SMTP_PASS }}
+      MAIL_FROM: ${{ secrets.MAIL_FROM }}
+      MAIL_TO: ${{ secrets.MAIL_TO }}
+          
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -17,7 +25,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - name: Restore
         run: dotnet restore
@@ -25,5 +33,12 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore
 
+      - name: Debug env
+        run: |
+         echo "SMTP_HOST=$SMTP_HOST"
+         echo "MAIL_FROM=$MAIL_FROM"
+
+        
       - name: Run job
         run: dotnet run --project WorkerSendMails.Console --configuration Release
+
