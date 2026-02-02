@@ -1,15 +1,29 @@
-name: Job Consola
+name: Job Consola .NET
+run-name: Job Consola .NET #${{ github.run_number }}
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # ejecución manual
+  schedule:
+    - cron: "0 3 * * *" # todos los días a las 03:00 UTC
 
 jobs:
   run-job:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - run: dotnet --version
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run job
+        run: dotnet run --project WorkerSendMails.Console --configuration Release
