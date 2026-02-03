@@ -4,6 +4,9 @@ class Program
 {
     static void Main()
     {
+        LogManager.Setup()
+            .LoadConfigurationFromFile("NLog.config");
+
         var logger = LogManager.GetLogger("FinalJobLogger");
 
         try

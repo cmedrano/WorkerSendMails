@@ -32,12 +32,6 @@ jobs:
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
-
-      - name: Debug env
-        run: |
-         echo "SMTP_HOST=$SMTP_HOST"
-         echo "MAIL_FROM=$MAIL_FROM"
-
         
       - name: Run job
         run: dotnet run --project WorkerSendMails.Console --configuration Release
