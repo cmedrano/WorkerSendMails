@@ -11,11 +11,12 @@
     <PackageReference Include="NLog" Version="6.1.0" />
     <PackageReference Include="NLog.Config" Version="4.7.15" />
     <PackageReference Include="NLog.MailKit" Version="6.0.5" />
+    <PackageReference Include="Resend" Version="0.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="NLog.config">
-		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
